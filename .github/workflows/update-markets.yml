@@ -1,0 +1,139 @@
+name: Update market data
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '15 0 * * 1-5'
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/update-markets.yml'
+      - 'config/markets.json'
+
+permissions:
+  contents: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Fetch market quotes
+        env:
+          ALPHAVANTAGE_API_KEY: ${{ secrets.ALPHAVANTAGE_API_KEY }}
+        run: |
+          python <<'PY'
+          import json
+          import os
+          import time
+          from datetime import datetime, timezone
+          from pathlib import Path
+          from urllib.parse import urlencode
+          from urllib.request import urlopen
+
+          root = Path('.')
+          config_path = root / 'config' / 'markets.json'
+          output_path = root / 'data' / 'markets.json'
+
+          api_key = os.getenv('ALPHAVANTAGE_API_KEY')
+          if not api_key:
+              raise SystemExit('GitHub Secret ALPHAVANTAGE_API_KEY が未設定です。')
+
+          with config_path.open('r', encoding='utf-8') as f:
+              markets = json.load(f)
+
+          def request_json(params):
+              base = 'https://www.alphavantage.co/query?'
+              url = base + urlencode(params)
+              with urlopen(url, timeout=30) as res:
+                  return json.loads(res.read().decode('utf-8'))
+
+          items = []
+          errors = []
+
+          for i, market in enumerate(markets):
+              symbol = market['symbol']
+              data = request_json({
+                  'function': 'GLOBAL_QUOTE',
+                  'symbol': symbol,
+                  'apikey': api_key,
+              })
+
+              if 'Note' in data:
+                  errors.append({'symbol': symbol, 'error': data['Note']})
+                  time.sleep(15)
+                  continue
+              if 'Information' in data:
+                  errors.append({'symbol': symbol, 'error': data['Information']})
+                  time.sleep(15)
+                  continue
+
+              quote = data.get('Global Quote', {})
+              if not quote:
+                  errors.append({'symbol': symbol, 'error': 'Global Quote が空でした。'})
+                  time.sleep(15)
+                  continue
+
+              def num(key):
+                  try:
+                      return float(quote.get(key, ''))
+                  except (TypeError, ValueError):
+                      return None
+
+              def pct(key):
+                  raw = str(quote.get(key, '')).replace('%', '').strip()
+                  try:
+                      return float(raw)
+                  except (TypeError, ValueError):
+                      return None
+
+              items.append({
+                  'name': market.get('name', symbol),
+                  'symbol': symbol,
+                  'region': market.get('region', ''),
+                  'exchange': market.get('exchange', ''),
+                  'currency': market.get('currency', ''),
+                  'note': market.get('note', ''),
+                  'price': num('05. price'),
+                  'change': num('09. change'),
+                  'change_percent': pct('10. change percent'),
+                  'previous_close': num('08. previous close'),
+                  'latest_trading_day': quote.get('07. latest trading day', ''),
+                  'raw_symbol': quote.get('01. symbol', symbol),
+              })
+
+              # Alpha Vantage の無料枠は API 利用頻度に制限があるため、余裕をもって待機
+              if i < len(markets) - 1:
+                  time.sleep(15)
+
+          payload = {
+              'updated_at': datetime.now(timezone.utc).isoformat(),
+              'source': 'Alpha Vantage / GitHub Actions',
+              'item_count': len(items),
+              'error_count': len(errors),
+              'errors': errors,
+              'items': items,
+          }
+
+          output_path.parent.mkdir(parents=True, exist_ok=True)
+          with output_path.open('w', encoding='utf-8') as f:
+              json.dump(payload, f, ensure_ascii=False, indent=2)
+              f.write('\n')
+          PY
+
+      - name: Commit updated JSON
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add data/markets.json
+          git diff --cached --quiet || git commit -m 'Update market data'
+          git push
