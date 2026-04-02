@@ -1,0 +1,82 @@
+[
+  {
+    "name": "米国 S&P 500",
+    "symbol": "SPY",
+    "region": "北米",
+    "exchange": "NYSE Arca",
+    "currency": "USD",
+    "note": "米国大型株の代表的な指数連動ETF"
+  },
+  {
+    "name": "先進国（米国除く）",
+    "symbol": "EFA",
+    "region": "グローバル",
+    "exchange": "NYSE Arca",
+    "currency": "USD",
+    "note": "欧州・豪州・極東の先進国株ETF"
+  },
+  {
+    "name": "日本",
+    "symbol": "EWJ",
+    "region": "アジア",
+    "exchange": "NYSE Arca",
+    "currency": "USD",
+    "note": "日本株に連動するETF"
+  },
+  {
+    "name": "中国大型株",
+    "symbol": "FXI",
+    "region": "アジア",
+    "exchange": "NYSE Arca",
+    "currency": "USD",
+    "note": "中国大型株ETF"
+  },
+  {
+    "name": "香港",
+    "symbol": "EWH",
+    "region": "アジア",
+    "exchange": "NYSE Arca",
+    "currency": "USD",
+    "note": "香港株ETF"
+  },
+  {
+    "name": "インド",
+    "symbol": "INDA",
+    "region": "アジア",
+    "exchange": "NYSE Arca",
+    "currency": "USD",
+    "note": "インド株ETF"
+  },
+  {
+    "name": "イギリス",
+    "symbol": "EWU",
+    "region": "ヨーロッパ",
+    "exchange": "NYSE Arca",
+    "currency": "USD",
+    "note": "英国株ETF"
+  },
+  {
+    "name": "ドイツ",
+    "symbol": "EWG",
+    "region": "ヨーロッパ",
+    "exchange": "NYSE Arca",
+    "currency": "USD",
+    "note": "ドイツ株ETF"
+  },
+  {
+    "name": "フランス",
+    "symbol": "EWQ",
+    "region": "ヨーロッパ",
+    "exchange": "NYSE Arca",
+    "currency": "USD",
+    "note": "フランス株ETF"
+  },
+  {
+    "name": "オーストラリア",
+    "symbol": "EWA",
+    "region": "オセアニア",
+    "exchange": "NYSE Arca",
+    "currency": "USD",
+    "note": "豪州株ETF"
+  }
+]
