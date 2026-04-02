@@ -3,494 +3,518 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>世界の株価一覧</title>
-  <meta name="description" content="GitHub Pages で公開できる、世界の主要市場連動ETFの株価一覧ページです。">
+  <title>世界の株価ダッシュボード</title>
+  <meta name="description" content="世界の主要株価指数、主要株式、為替、暗号資産を1ページで確認できるシンプルなダッシュボードです。">
   <style>
     :root {
       --bg: #0b1020;
-      --card: rgba(255,255,255,0.08);
-      --line: rgba(255,255,255,0.15);
-      --text: #eef2ff;
-      --muted: #b6c0dc;
-      --accent: #7dd3fc;
-      --up: #22c55e;
-      --down: #ef4444;
-      --flat: #94a3b8;
-      --shadow: 0 20px 50px rgba(0,0,0,.28);
+      --panel: #121933;
+      --panel-2: #0f1530;
+      --text: #eef3ff;
+      --muted: #a9b4d0;
+      --line: rgba(255,255,255,0.08);
+      --accent: #67a7ff;
+      --accent-2: #8ef0d6;
+      --shadow: 0 14px 40px rgba(0,0,0,0.28);
+      --radius: 20px;
+      --max: 1240px;
     }
 
     * { box-sizing: border-box; }
-    html, body { margin: 0; padding: 0; }
-    body {
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-      background:
-        radial-gradient(circle at top left, rgba(125,211,252,.16), transparent 28%),
-        linear-gradient(180deg, #0b1020 0%, #131a30 100%);
-      color: var(--text);
-      min-height: 100vh;
-      line-height: 1.6;
+
+    html {
+      scroll-behavior: smooth;
     }
 
+    body {
+      margin: 0;
+      font-family: "Segoe UI", "Hiragino Sans", "Yu Gothic UI", sans-serif;
+      background:
+        radial-gradient(circle at top right, rgba(103,167,255,0.18), transparent 28%),
+        radial-gradient(circle at top left, rgba(142,240,214,0.12), transparent 24%),
+        linear-gradient(180deg, #08101f 0%, #0a0f1f 100%);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    a { color: inherit; }
+
     .wrap {
-      width: min(1180px, calc(100% - 32px));
+      width: min(calc(100% - 32px), var(--max));
       margin: 0 auto;
-      padding: 28px 0 56px;
     }
 
     .hero {
-      background: linear-gradient(135deg, rgba(125,211,252,.15), rgba(255,255,255,.06));
+      padding: 32px 0 18px;
+    }
+
+    .hero-panel {
+      background: linear-gradient(180deg, rgba(18,25,51,0.92), rgba(12,17,35,0.96));
       border: 1px solid var(--line);
-      border-radius: 24px;
-      box-shadow: var(--shadow);
+      border-radius: 28px;
       padding: 28px;
-      margin-bottom: 22px;
-      backdrop-filter: blur(10px);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+      position: relative;
     }
 
-    h1 {
-      margin: 0 0 10px;
-      font-size: clamp(28px, 5vw, 42px);
-      line-height: 1.15;
-      letter-spacing: .02em;
+    .hero-panel::before {
+      content: "";
+      position: absolute;
+      inset: auto -40px -60px auto;
+      width: 180px;
+      height: 180px;
+      background: radial-gradient(circle, rgba(103,167,255,0.22), transparent 65%);
+      pointer-events: none;
     }
 
-    .lead {
-      margin: 0 0 12px;
-      color: var(--muted);
-      max-width: 840px;
-    }
-
-    .badge-row {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 14px;
-    }
-
-    .badge {
+    .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 8px 12px;
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--accent-2);
+      background: rgba(142,240,214,0.08);
+      border: 1px solid rgba(142,240,214,0.18);
+      border-radius: 999px;
+      padding: 6px 12px;
+      margin-bottom: 14px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(30px, 5vw, 48px);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+    }
+
+    .lead {
+      margin: 14px 0 0;
+      color: var(--muted);
+      font-size: clamp(15px, 2.2vw, 18px);
+      max-width: 900px;
+    }
+
+    .mini-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .mini-nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-size: 14px;
+      padding: 10px 14px;
       border-radius: 999px;
       border: 1px solid var(--line);
-      background: rgba(255,255,255,.06);
-      color: var(--muted);
-      font-size: 14px;
+      background: rgba(255,255,255,0.03);
+      transition: transform .18s ease, border-color .18s ease, background .18s ease;
+    }
+
+    .mini-nav a:hover {
+      transform: translateY(-1px);
+      border-color: rgba(103,167,255,0.5);
+      background: rgba(103,167,255,0.08);
+    }
+
+    .ticker-shell {
+      margin-top: 18px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.02);
     }
 
     .grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 14px;
-      margin-bottom: 18px;
+      grid-template-columns: repeat(12, minmax(0, 1fr));
+      gap: 18px;
+      margin: 22px 0 44px;
     }
 
-    .stat {
-      background: var(--card);
+    .card {
+      grid-column: span 12;
+      background: linear-gradient(180deg, rgba(18,25,51,0.92), rgba(10,15,31,0.98));
       border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 18px;
+      border-radius: var(--radius);
       box-shadow: var(--shadow);
-      backdrop-filter: blur(8px);
-    }
-
-    .stat-label {
-      color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 8px;
-    }
-
-    .stat-value {
-      font-size: 28px;
-      font-weight: 700;
-      line-height: 1.1;
-    }
-
-    .controls {
-      display: grid;
-      grid-template-columns: 1.2fr .8fr .8fr auto;
-      gap: 12px;
-      margin-bottom: 16px;
-    }
-
-    .field, .button {
-      width: 100%;
-      border-radius: 14px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.06);
-      color: var(--text);
-      padding: 12px 14px;
-      font-size: 15px;
-      outline: none;
-    }
-
-    .field::placeholder { color: #c8d1ea; }
-
-    .button {
-      cursor: pointer;
-      transition: transform .15s ease, background .15s ease;
-      font-weight: 600;
-    }
-
-    .button:hover {
-      transform: translateY(-1px);
-      background: rgba(255,255,255,.12);
-    }
-
-    .panel {
-      background: rgba(255,255,255,.05);
-      border: 1px solid var(--line);
-      border-radius: 22px;
       overflow: hidden;
-      box-shadow: var(--shadow);
-      backdrop-filter: blur(8px);
     }
 
-    .table-wrap {
-      overflow-x: auto;
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 980px;
-    }
-
-    thead th {
-      text-align: left;
-      font-size: 13px;
-      color: var(--muted);
-      background: rgba(255,255,255,.05);
+    .card-header {
+      padding: 20px 22px 12px;
       border-bottom: 1px solid var(--line);
-      padding: 14px 16px;
-      position: sticky;
-      top: 0;
-      z-index: 1;
-      white-space: nowrap;
     }
 
-    tbody td {
-      padding: 15px 16px;
-      border-bottom: 1px solid rgba(255,255,255,.08);
-      vertical-align: middle;
+    .card h2 {
+      margin: 0;
+      font-size: clamp(20px, 2.3vw, 28px);
+      letter-spacing: -0.02em;
     }
 
-    tbody tr:hover {
-      background: rgba(255,255,255,.05);
-    }
-
-    .name {
-      font-weight: 700;
-      margin-bottom: 4px;
-    }
-
-    .sub {
+    .card p {
+      margin: 8px 0 0;
       color: var(--muted);
-      font-size: 13px;
-    }
-
-    .pill {
-      display: inline-block;
-      padding: 6px 10px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,.05);
-      font-size: 12px;
-      color: var(--muted);
-      white-space: nowrap;
-    }
-
-    .num {
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-    }
-
-    .up { color: var(--up); font-weight: 700; }
-    .down { color: var(--down); font-weight: 700; }
-    .flat { color: var(--flat); font-weight: 700; }
-
-    .footer {
-      color: var(--muted);
-      margin-top: 14px;
       font-size: 14px;
     }
 
-    .empty, .loading {
-      padding: 28px;
+    .card-body {
+      padding: 14px;
+      min-height: 420px;
+    }
+
+    .two-up {
+      grid-column: span 12;
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 18px;
+    }
+
+    .note {
+      margin: 0 0 60px;
       color: var(--muted);
+      font-size: 13px;
+      text-align: center;
     }
 
-    @media (max-width: 980px) {
-      .grid { grid-template-columns: repeat(2, 1fr); }
-      .controls { grid-template-columns: 1fr 1fr; }
+    .footer {
+      padding: 0 0 60px;
     }
 
-    @media (max-width: 640px) {
-      .wrap { width: min(100% - 20px, 1180px); padding-top: 20px; }
-      .hero { padding: 22px; border-radius: 18px; }
-      .grid { grid-template-columns: 1fr; }
-      .controls { grid-template-columns: 1fr; }
-      .stat-value { font-size: 24px; }
+    .footer-box {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px 20px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+
+    .footer-box strong {
+      color: var(--text);
+    }
+
+    .tradingview-widget-container,
+    .tradingview-widget-container__widget {
+      width: 100%;
+    }
+
+    @media (min-width: 980px) {
+      .two-up {
+        grid-template-columns: 1fr 1fr;
+      }
     }
   </style>
 </head>
 <body>
-  <div class="wrap">
-    <section class="hero">
-      <h1>世界の株価一覧</h1>
+  <header class="hero wrap">
+    <div class="hero-panel">
+      <div class="eyebrow">Global Markets Dashboard</div>
+      <h1>世界の株価を 1ページで見られる<br>シンプルな市場ダッシュボード</h1>
       <p class="lead">
-        GitHub Pages で公開できる、世界の主要市場に連動するETFを一覧表示するサンプルサイトです。
-        データは GitHub Actions が定期取得して <code>data/markets.json</code> を更新し、公開ページはその JSON を読むだけなので高速に動きます。
+        GitHub Pages に <strong>この 1ファイルだけ</strong>置けば動く構成です。上から順に、主要指数、世界の代表的な株式、為替、暗号資産を一覧表示します。
       </p>
-      <div class="badge-row">
-        <span class="badge">公開先: GitHub Pages</span>
-        <span class="badge" id="sourceBadge">データ取得元: 読み込み中...</span>
-        <span class="badge" id="updatedBadge">最終更新: 読み込み中...</span>
+      <nav class="mini-nav" aria-label="ページ内リンク">
+        <a href="#indices">主要指数</a>
+        <a href="#stocks">主要株式</a>
+        <a href="#forex">為替</a>
+        <a href="#crypto">暗号資産</a>
+      </nav>
+      <div class="ticker-shell" aria-label="ティッカーテープ">
+        <!-- TradingView Widget BEGIN -->
+        <div class="tradingview-widget-container">
+          <div class="tradingview-widget-container__widget"></div>
+          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
+          {
+            "symbols": [
+              {"proName": "FOREXCOM:SPXUSD", "title": "S&P 500"},
+              {"proName": "FOREXCOM:DJI", "title": "Dow 30"},
+              {"proName": "FOREXCOM:NSXUSD", "title": "Nasdaq 100"},
+              {"proName": "INDEX:NKY", "title": "Nikkei 225"},
+              {"proName": "INDEX:HSI", "title": "Hang Seng"},
+              {"proName": "FOREXCOM:UKXGBP", "title": "FTSE 100"},
+              {"proName": "INDEX:DEU40", "title": "DAX"},
+              {"proName": "BITSTAMP:BTCUSD", "title": "Bitcoin"}
+            ],
+            "showSymbolLogo": true,
+            "isTransparent": true,
+            "displayMode": "adaptive",
+            "colorTheme": "dark",
+            "locale": "ja"
+          }
+          </script>
+        </div>
+        <!-- TradingView Widget END -->
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="grid" id="indices">
+      <article class="card">
+        <div class="card-header">
+          <h2>世界の主要指数</h2>
+          <p>米国、欧州、アジア太平洋の代表指数を地域別に一覧表示します。</p>
+        </div>
+        <div class="card-body">
+          <!-- TradingView Widget BEGIN -->
+          <div class="tradingview-widget-container">
+            <div class="tradingview-widget-container__widget"></div>
+            <div class="tradingview-widget-copyright">
+              <a href="https://www.tradingview.com/markets/" rel="noopener nofollow" target="_blank">Market data by TradingView</a>
+            </div>
+            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+            {
+              "title": "Indices",
+              "width": "100%",
+              "height": 460,
+              "locale": "ja",
+              "showSymbolLogo": true,
+              "colorTheme": "dark",
+              "symbolsGroups": [
+                {
+                  "name": "米国・カナダ",
+                  "symbols": [
+                    {"name": "FOREXCOM:SPXUSD", "displayName": "S&P 500"},
+                    {"name": "FOREXCOM:NSXUSD", "displayName": "Nasdaq 100"},
+                    {"name": "FOREXCOM:DJI", "displayName": "Dow 30"},
+                    {"name": "INDEX:RUT", "displayName": "Russell 2000"},
+                    {"name": "TSX:TSX", "displayName": "S&P/TSX"}
+                  ]
+                },
+                {
+                  "name": "欧州",
+                  "symbols": [
+                    {"name": "INDEX:SX5E", "displayName": "Euro Stoxx 50"},
+                    {"name": "FOREXCOM:UKXGBP", "displayName": "FTSE 100"},
+                    {"name": "INDEX:DEU40", "displayName": "DAX"},
+                    {"name": "INDEX:CAC40", "displayName": "CAC 40"},
+                    {"name": "INDEX:SMI", "displayName": "SMI"}
+                  ]
+                },
+                {
+                  "name": "アジア太平洋",
+                  "symbols": [
+                    {"name": "INDEX:NKY", "displayName": "Nikkei 225"},
+                    {"name": "INDEX:TOPIX", "displayName": "TOPIX"},
+                    {"name": "INDEX:HSI", "displayName": "Hang Seng"},
+                    {"name": "BSE:SENSEX", "displayName": "Sensex"},
+                    {"name": "INDEX:KSIC", "displayName": "KOSPI"}
+                  ]
+                }
+              ]
+            }
+            </script>
+          </div>
+          <!-- TradingView Widget END -->
+        </div>
+      </article>
+    </section>
+
+    <section class="grid" id="stocks">
+      <div class="two-up">
+        <article class="card">
+          <div class="card-header">
+            <h2>米国の代表株</h2>
+            <p>大型テックと代表的な米国株をまとめています。</p>
+          </div>
+          <div class="card-body">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+              {
+                "title": "US Stocks",
+                "width": "100%",
+                "height": 460,
+                "locale": "ja",
+                "showSymbolLogo": true,
+                "colorTheme": "dark",
+                "symbolsGroups": [
+                  {
+                    "name": "大型株",
+                    "symbols": [
+                      {"name": "NASDAQ:AAPL", "displayName": "Apple"},
+                      {"name": "NASDAQ:MSFT", "displayName": "Microsoft"},
+                      {"name": "NASDAQ:NVDA", "displayName": "NVIDIA"},
+                      {"name": "NASDAQ:AMZN", "displayName": "Amazon"},
+                      {"name": "NASDAQ:GOOGL", "displayName": "Alphabet"}
+                    ]
+                  },
+                  {
+                    "name": "代表銘柄",
+                    "symbols": [
+                      {"name": "NYSE:BRK.B", "displayName": "Berkshire Hathaway"},
+                      {"name": "NASDAQ:META", "displayName": "Meta"},
+                      {"name": "NYSE:V", "displayName": "Visa"},
+                      {"name": "NASDAQ:TSLA", "displayName": "Tesla"},
+                      {"name": "NYSE:JPM", "displayName": "JPMorgan"}
+                    ]
+                  }
+                ]
+              }
+              </script>
+            </div>
+            <!-- TradingView Widget END -->
+          </div>
+        </article>
+
+        <article class="card">
+          <div class="card-header">
+            <h2>日本・アジアの代表株</h2>
+            <p>日本を含むアジアの代表的な大型株を並べています。</p>
+          </div>
+          <div class="card-body">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+              {
+                "title": "Asia Stocks",
+                "width": "100%",
+                "height": 460,
+                "locale": "ja",
+                "showSymbolLogo": true,
+                "colorTheme": "dark",
+                "symbolsGroups": [
+                  {
+                    "name": "日本",
+                    "symbols": [
+                      {"name": "TSE:7203", "displayName": "Toyota"},
+                      {"name": "TSE:6758", "displayName": "Sony Group"},
+                      {"name": "TSE:9984", "displayName": "SoftBank Group"},
+                      {"name": "TSE:8035", "displayName": "Tokyo Electron"},
+                      {"name": "TSE:9983", "displayName": "Fast Retailing"}
+                    ]
+                  },
+                  {
+                    "name": "アジア",
+                    "symbols": [
+                      {"name": "HKEX:0700", "displayName": "Tencent"},
+                      {"name": "SSE:600519", "displayName": "Kweichow Moutai"},
+                      {"name": "BSE:RELIANCE", "displayName": "Reliance"},
+                      {"name": "KRX:005930", "displayName": "Samsung Electronics"},
+                      {"name": "TSEC:2330", "displayName": "TSMC"}
+                    ]
+                  }
+                ]
+              }
+              </script>
+            </div>
+            <!-- TradingView Widget END -->
+          </div>
+        </article>
       </div>
     </section>
 
-    <section class="grid">
-      <div class="stat">
-        <div class="stat-label">表示件数</div>
-        <div class="stat-value" id="countAll">-</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label">上昇</div>
-        <div class="stat-value up" id="countUp">-</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label">下落</div>
-        <div class="stat-value down" id="countDown">-</div>
-      </div>
-      <div class="stat">
-        <div class="stat-label">変わらず</div>
-        <div class="stat-value flat" id="countFlat">-</div>
+    <section class="grid" id="forex">
+      <div class="two-up">
+        <article class="card">
+          <div class="card-header">
+            <h2>主要為替</h2>
+            <p>ドル円、ユーロドル、ポンドドルなど主要ペアの動きを確認できます。</p>
+          </div>
+          <div class="card-body">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+              {
+                "title": "Forex",
+                "width": "100%",
+                "height": 420,
+                "locale": "ja",
+                "showSymbolLogo": true,
+                "colorTheme": "dark",
+                "symbolsGroups": [
+                  {
+                    "name": "主要通貨",
+                    "symbols": [
+                      {"name": "FX:USDJPY", "displayName": "USD/JPY"},
+                      {"name": "FX:EURUSD", "displayName": "EUR/USD"},
+                      {"name": "FX:GBPUSD", "displayName": "GBP/USD"},
+                      {"name": "FX:AUDUSD", "displayName": "AUD/USD"},
+                      {"name": "FX:USDCHF", "displayName": "USD/CHF"}
+                    ]
+                  },
+                  {
+                    "name": "その他",
+                    "symbols": [
+                      {"name": "FX:USDCNH", "displayName": "USD/CNH"},
+                      {"name": "FX:EURJPY", "displayName": "EUR/JPY"},
+                      {"name": "FX:GBPJPY", "displayName": "GBP/JPY"},
+                      {"name": "FX:USDKRW", "displayName": "USD/KRW"},
+                      {"name": "FX:USDINR", "displayName": "USD/INR"}
+                    ]
+                  }
+                ]
+              }
+              </script>
+            </div>
+            <!-- TradingView Widget END -->
+          </div>
+        </article>
+
+        <article class="card" id="crypto">
+          <div class="card-header">
+            <h2>主要暗号資産</h2>
+            <p>ビットコイン、イーサリアムなど主要銘柄を一覧できます。</p>
+          </div>
+          <div class="card-body">
+            <!-- TradingView Widget BEGIN -->
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
+              {
+                "title": "Crypto",
+                "width": "100%",
+                "height": 420,
+                "locale": "ja",
+                "showSymbolLogo": true,
+                "colorTheme": "dark",
+                "symbolsGroups": [
+                  {
+                    "name": "主要暗号資産",
+                    "symbols": [
+                      {"name": "BITSTAMP:BTCUSD", "displayName": "Bitcoin"},
+                      {"name": "BITSTAMP:ETHUSD", "displayName": "Ethereum"},
+                      {"name": "BINANCE:SOLUSDT", "displayName": "Solana"},
+                      {"name": "BINANCE:XRPUSDT", "displayName": "XRP"},
+                      {"name": "BINANCE:BNBUSDT", "displayName": "BNB"}
+                    ]
+                  },
+                  {
+                    "name": "拡張",
+                    "symbols": [
+                      {"name": "BINANCE:DOGEUSDT", "displayName": "Dogecoin"},
+                      {"name": "BINANCE:ADAUSDT", "displayName": "Cardano"},
+                      {"name": "BINANCE:AVAXUSDT", "displayName": "Avalanche"},
+                      {"name": "BINANCE:LINKUSDT", "displayName": "Chainlink"},
+                      {"name": "BINANCE:DOTUSDT", "displayName": "Polkadot"}
+                    ]
+                  }
+                ]
+              }
+              </script>
+            </div>
+            <!-- TradingView Widget END -->
+          </div>
+        </article>
       </div>
     </section>
 
-    <section class="controls">
-      <input id="searchInput" class="field" type="search" placeholder="市場名・地域・シンボルで検索">
-      <select id="regionFilter" class="field">
-        <option value="all">すべての地域</option>
-      </select>
-      <select id="sortSelect" class="field">
-        <option value="region">並び順: 地域順</option>
-        <option value="price_desc">並び順: 価格が高い順</option>
-        <option value="price_asc">並び順: 価格が低い順</option>
-        <option value="change_desc">並び順: 騰落率が高い順</option>
-        <option value="change_asc">並び順: 騰落率が低い順</option>
-      </select>
-      <button id="reloadButton" class="button" type="button">再読み込み</button>
-    </section>
+    <p class="note">表示されるデータは外部ウィジェットの配信状況に依存します。ページ自体は 1つの HTML ファイルだけで公開できます。</p>
+  </main>
 
-    <section class="panel">
-      <div class="table-wrap">
-        <table>
-          <thead>
-            <tr>
-              <th>市場</th>
-              <th>地域</th>
-              <th>シンボル</th>
-              <th>価格</th>
-              <th>前日比</th>
-              <th>騰落率</th>
-              <th>前日終値</th>
-              <th>基準日</th>
-              <th>メモ</th>
-            </tr>
-          </thead>
-          <tbody id="tableBody">
-            <tr><td colspan="9" class="loading">データを読み込んでいます...</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </section>
-
-    <p class="footer">
-      ※ 初期設定では「世界の主要市場に連動するETF」を表示しています。<br>
-      ※ 銘柄を変更したい場合は <code>config/markets.json</code> の中身を書き換えてください。
-    </p>
-  </div>
-
-  <script>
-    const state = {
-      raw: [],
-      filtered: [],
-      meta: null,
-    };
-
-    const tableBody = document.getElementById('tableBody');
-    const searchInput = document.getElementById('searchInput');
-    const regionFilter = document.getElementById('regionFilter');
-    const sortSelect = document.getElementById('sortSelect');
-    const reloadButton = document.getElementById('reloadButton');
-    const sourceBadge = document.getElementById('sourceBadge');
-    const updatedBadge = document.getElementById('updatedBadge');
-    const countAll = document.getElementById('countAll');
-    const countUp = document.getElementById('countUp');
-    const countDown = document.getElementById('countDown');
-    const countFlat = document.getElementById('countFlat');
-
-    function formatNumber(value, digits = 2) {
-      if (value === null || value === undefined || Number.isNaN(Number(value))) return '-';
-      return Number(value).toLocaleString('ja-JP', {
-        minimumFractionDigits: digits,
-        maximumFractionDigits: digits,
-      });
-    }
-
-    function formatDate(value) {
-      if (!value) return '-';
-      const date = new Date(value);
-      if (Number.isNaN(date.getTime())) return value;
-      return new Intl.DateTimeFormat('ja-JP', {
-        dateStyle: 'medium',
-        timeStyle: 'short',
-        timeZone: 'Asia/Tokyo',
-      }).format(date);
-    }
-
-    function quoteClass(value) {
-      const num = Number(value);
-      if (num > 0) return 'up';
-      if (num < 0) return 'down';
-      return 'flat';
-    }
-
-    function setSummary(items) {
-      const up = items.filter(x => Number(x.change) > 0).length;
-      const down = items.filter(x => Number(x.change) < 0).length;
-      const flat = items.length - up - down;
-      countAll.textContent = items.length.toString();
-      countUp.textContent = up.toString();
-      countDown.textContent = down.toString();
-      countFlat.textContent = flat.toString();
-    }
-
-    function buildRegionOptions(items) {
-      const current = regionFilter.value || 'all';
-      const regions = [...new Set(items.map(x => x.region).filter(Boolean))].sort((a, b) => a.localeCompare(b, 'ja'));
-      regionFilter.innerHTML = '<option value="all">すべての地域</option>';
-      for (const region of regions) {
-        const option = document.createElement('option');
-        option.value = region;
-        option.textContent = region;
-        regionFilter.appendChild(option);
-      }
-      regionFilter.value = regions.includes(current) ? current : 'all';
-    }
-
-    function applyFilters() {
-      const keyword = searchInput.value.trim().toLowerCase();
-      const region = regionFilter.value;
-      const sort = sortSelect.value;
-
-      let items = [...state.raw];
-
-      if (keyword) {
-        items = items.filter(item => {
-          const text = [item.name, item.region, item.symbol, item.note, item.exchange, item.currency]
-            .filter(Boolean)
-            .join(' ')
-            .toLowerCase();
-          return text.includes(keyword);
-        });
-      }
-
-      if (region !== 'all') {
-        items = items.filter(item => item.region === region);
-      }
-
-      items.sort((a, b) => {
-        switch (sort) {
-          case 'price_desc': return Number(b.price) - Number(a.price);
-          case 'price_asc': return Number(a.price) - Number(b.price);
-          case 'change_desc': return Number(b.change_percent) - Number(a.change_percent);
-          case 'change_asc': return Number(a.change_percent) - Number(b.change_percent);
-          case 'region':
-          default:
-            return `${a.region} ${a.name}`.localeCompare(`${b.region} ${b.name}`, 'ja');
-        }
-      });
-
-      state.filtered = items;
-      renderTable(items);
-      setSummary(items);
-    }
-
-    function renderTable(items) {
-      if (!items.length) {
-        tableBody.innerHTML = '<tr><td colspan="9" class="empty">該当するデータがありません。</td></tr>';
-        return;
-      }
-
-      tableBody.innerHTML = items.map(item => {
-        const changeClass = quoteClass(item.change);
-        const pctClass = quoteClass(item.change_percent);
-        const sign = Number(item.change) > 0 ? '+' : '';
-        const pctSign = Number(item.change_percent) > 0 ? '+' : '';
-        return `
-          <tr>
-            <td>
-              <div class="name">${escapeHtml(item.name || '-')}</div>
-              <div class="sub">${escapeHtml(item.exchange || '')}</div>
-            </td>
-            <td><span class="pill">${escapeHtml(item.region || '-')}</span></td>
-            <td class="num">${escapeHtml(item.symbol || '-')}</td>
-            <td class="num">${escapeHtml(item.currency || '')} ${formatNumber(item.price)}</td>
-            <td class="num ${changeClass}">${sign}${formatNumber(item.change)}</td>
-            <td class="num ${pctClass}">${pctSign}${formatNumber(item.change_percent)}%</td>
-            <td class="num">${formatNumber(item.previous_close)}</td>
-            <td class="num">${escapeHtml(item.latest_trading_day || '-')}</td>
-            <td>${escapeHtml(item.note || '-')}</td>
-          </tr>
-        `;
-      }).join('');
-    }
-
-    function escapeHtml(text) {
-      return String(text)
-        .replaceAll('&', '&amp;')
-        .replaceAll('<', '&lt;')
-        .replaceAll('>', '&gt;')
-        .replaceAll('"', '&quot;')
-        .replaceAll("'", '&#39;');
-    }
-
-    async function loadData() {
-      tableBody.innerHTML = '<tr><td colspan="9" class="loading">データを読み込んでいます...</td></tr>';
-      try {
-        const response = await fetch(`./data/markets.json?v=${Date.now()}`, { cache: 'no-store' });
-        if (!response.ok) throw new Error(`HTTP ${response.status}`);
-        const data = await response.json();
-
-        state.meta = data;
-        state.raw = Array.isArray(data.items) ? data.items : [];
-
-        sourceBadge.textContent = `データ取得元: ${data.source || '不明'}`;
-        updatedBadge.textContent = `最終更新: ${formatDate(data.updated_at)}`;
-
-        buildRegionOptions(state.raw);
-        applyFilters();
-      } catch (error) {
-        console.error(error);
-        tableBody.innerHTML = `<tr><td colspan="9" class="empty">データの読み込みに失敗しました。<br>${escapeHtml(String(error.message || error))}</td></tr>`;
-        sourceBadge.textContent = 'データ取得元: 読み込み失敗';
-        updatedBadge.textContent = '最終更新: -';
-        countAll.textContent = '-';
-        countUp.textContent = '-';
-        countDown.textContent = '-';
-        countFlat.textContent = '-';
-      }
-    }
-
-    searchInput.addEventListener('input', applyFilters);
-    regionFilter.addEventListener('change', applyFilters);
-    sortSelect.addEventListener('change', applyFilters);
-    reloadButton.addEventListener('click', loadData);
-
-    loadData();
-  </script>
+  <footer class="footer wrap">
+    <div class="footer-box">
+      <strong>設置方法:</strong> 今のリポジトリの <code>index.html</code> をこのファイルで置き換えてコミットしてください。<br>
+      その後、GitHub Pages を再読み込みすると反映されます。`.github` フォルダ、API キー、定期更新ワークフローは不要です。
+    </div>
+  </footer>
 </body>
 </html>
