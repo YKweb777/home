@@ -3,518 +3,557 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>世界の株価ダッシュボード</title>
-  <meta name="description" content="世界の主要株価指数、主要株式、為替、暗号資産を1ページで確認できるシンプルなダッシュボードです。">
+  <title>世界の株価チャート一覧 | GitHub Pages 1ファイル版</title>
+  <meta name="description" content="世界の主要市場をチャート付きで見られる、GitHub Pages 向けの単一HTMLファイルです。">
   <style>
     :root {
-      --bg: #0b1020;
-      --panel: #121933;
-      --panel-2: #0f1530;
-      --text: #eef3ff;
-      --muted: #a9b4d0;
+      --bg: #08111f;
+      --panel: rgba(12, 24, 43, 0.88);
+      --panel-2: rgba(17, 33, 58, 0.95);
       --line: rgba(255,255,255,0.08);
-      --accent: #67a7ff;
-      --accent-2: #8ef0d6;
-      --shadow: 0 14px 40px rgba(0,0,0,0.28);
+      --text: #eef4ff;
+      --muted: #a9bbd8;
+      --accent: #5fa8ff;
+      --accent-2: #7cf0c8;
+      --shadow: 0 18px 50px rgba(0,0,0,.28);
       --radius: 20px;
-      --max: 1240px;
     }
 
     * { box-sizing: border-box; }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
+    html { scroll-behavior: smooth; }
     body {
       margin: 0;
-      font-family: "Segoe UI", "Hiragino Sans", "Yu Gothic UI", sans-serif;
-      background:
-        radial-gradient(circle at top right, rgba(103,167,255,0.18), transparent 28%),
-        radial-gradient(circle at top left, rgba(142,240,214,0.12), transparent 24%),
-        linear-gradient(180deg, #08101f 0%, #0a0f1f 100%);
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
       color: var(--text);
-      line-height: 1.7;
+      background:
+        radial-gradient(circle at top left, rgba(95,168,255,.20), transparent 35%),
+        radial-gradient(circle at top right, rgba(124,240,200,.14), transparent 28%),
+        linear-gradient(180deg, #07101c 0%, #08111f 55%, #0a1525 100%);
+      min-height: 100vh;
     }
 
     a { color: inherit; }
 
     .wrap {
-      width: min(calc(100% - 32px), var(--max));
+      width: min(1280px, calc(100% - 32px));
       margin: 0 auto;
     }
 
     .hero {
-      padding: 32px 0 18px;
+      padding: 28px 0 18px;
     }
 
-    .hero-panel {
-      background: linear-gradient(180deg, rgba(18,25,51,0.92), rgba(12,17,35,0.96));
+    .hero-card {
+      background: linear-gradient(180deg, rgba(18,32,56,.92), rgba(11,20,36,.92));
       border: 1px solid var(--line);
       border-radius: 28px;
-      padding: 28px;
       box-shadow: var(--shadow);
       overflow: hidden;
-      position: relative;
     }
 
-    .hero-panel::before {
-      content: "";
-      position: absolute;
-      inset: auto -40px -60px auto;
-      width: 180px;
-      height: 180px;
-      background: radial-gradient(circle, rgba(103,167,255,0.22), transparent 65%);
-      pointer-events: none;
+    .hero-inner {
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 24px;
+      padding: 28px;
     }
 
     .eyebrow {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 12px;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent-2);
-      background: rgba(142,240,214,0.08);
-      border: 1px solid rgba(142,240,214,0.18);
+      padding: 8px 12px;
       border-radius: 999px;
-      padding: 6px 12px;
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.08);
+      color: var(--muted);
+      font-size: 13px;
       margin-bottom: 14px;
     }
 
     h1 {
-      margin: 0;
+      margin: 0 0 14px;
       font-size: clamp(30px, 5vw, 48px);
-      line-height: 1.15;
-      letter-spacing: -0.03em;
+      line-height: 1.08;
+      letter-spacing: -0.02em;
     }
 
     .lead {
-      margin: 14px 0 0;
+      margin: 0;
       color: var(--muted);
-      font-size: clamp(15px, 2.2vw, 18px);
-      max-width: 900px;
+      font-size: 16px;
+      line-height: 1.8;
+      max-width: 60ch;
     }
 
-    .mini-nav {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px;
-    }
-
-    .mini-nav a {
-      text-decoration: none;
-      color: var(--text);
-      font-size: 14px;
-      padding: 10px 14px;
-      border-radius: 999px;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.03);
-      transition: transform .18s ease, border-color .18s ease, background .18s ease;
-    }
-
-    .mini-nav a:hover {
-      transform: translateY(-1px);
-      border-color: rgba(103,167,255,0.5);
-      background: rgba(103,167,255,0.08);
-    }
-
-    .ticker-shell {
-      margin-top: 18px;
-      border-radius: 18px;
-      overflow: hidden;
-      border: 1px solid var(--line);
-      background: rgba(255,255,255,0.02);
-    }
-
-    .grid {
+    .stats {
       display: grid;
-      grid-template-columns: repeat(12, minmax(0, 1fr));
-      gap: 18px;
-      margin: 22px 0 44px;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 12px;
+      margin-top: 22px;
     }
 
-    .card {
-      grid-column: span 12;
-      background: linear-gradient(180deg, rgba(18,25,51,0.92), rgba(10,15,31,0.98));
+    .stat {
+      padding: 14px 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.07);
+      border-radius: 16px;
+    }
+
+    .stat .k {
+      display: block;
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .stat .v {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .panel {
+      background: var(--panel);
       border: 1px solid var(--line);
       border-radius: var(--radius);
       box-shadow: var(--shadow);
       overflow: hidden;
     }
 
-    .card-header {
-      padding: 20px 22px 12px;
-      border-bottom: 1px solid var(--line);
+    .ticker-area {
+      margin: 18px 0 22px;
     }
 
-    .card h2 {
+    .section {
+      margin: 22px 0;
+    }
+
+    .section-head {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: end;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .section-title {
       margin: 0;
-      font-size: clamp(20px, 2.3vw, 28px);
+      font-size: 24px;
       letter-spacing: -0.02em;
     }
 
-    .card p {
-      margin: 8px 0 0;
+    .section-note {
+      margin: 0;
       color: var(--muted);
       font-size: 14px;
     }
 
-    .card-body {
-      padding: 14px;
-      min-height: 420px;
+    .selector-card {
+      padding: 18px;
     }
 
-    .two-up {
-      grid-column: span 12;
+    .button-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .market-btn {
+      appearance: none;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+      color: var(--text);
+      padding: 10px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      transition: .2s ease;
+      font-size: 14px;
+    }
+
+    .market-btn:hover,
+    .market-btn.active {
+      background: linear-gradient(135deg, rgba(95,168,255,.25), rgba(124,240,200,.18));
+      border-color: rgba(95,168,255,.45);
+      transform: translateY(-1px);
+    }
+
+    .selected-meta {
       display: grid;
-      grid-template-columns: 1fr;
+      grid-template-columns: 1.2fr .8fr;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .selected-box {
+      padding: 14px 16px;
+      border-radius: 16px;
+      background: rgba(255,255,255,.04);
+      border: 1px solid rgba(255,255,255,.06);
+    }
+
+    .selected-label {
+      color: var(--muted);
+      font-size: 12px;
+      margin-bottom: 6px;
+    }
+
+    .selected-value {
+      font-size: 18px;
+      font-weight: 700;
+    }
+
+    .chart-shell {
+      min-height: 560px;
+      border-radius: 18px;
+      overflow: hidden;
+      border: 1px solid rgba(255,255,255,.07);
+      background: rgba(0,0,0,.15);
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
       gap: 18px;
     }
 
-    .note {
-      margin: 0 0 60px;
+    .card {
+      background: linear-gradient(180deg, rgba(15,27,48,.95), rgba(9,18,34,.95));
+      border: 1px solid var(--line);
+      border-radius: 22px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .card-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      align-items: center;
+      padding: 16px 18px 0;
+    }
+
+    .card h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .tag {
+      white-space: nowrap;
+      font-size: 12px;
+      color: var(--muted);
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.04);
+    }
+
+    .card p {
+      margin: 8px 18px 0;
       color: var(--muted);
       font-size: 13px;
-      text-align: center;
+      line-height: 1.7;
     }
 
-    .footer {
-      padding: 0 0 60px;
-    }
-
-    .footer-box {
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--line);
-      border-radius: 20px;
-      padding: 18px 20px;
-      color: var(--muted);
-      font-size: 14px;
-    }
-
-    .footer-box strong {
-      color: var(--text);
+    .widget-slot {
+      min-height: 360px;
+      padding: 14px 14px 10px;
     }
 
     .tradingview-widget-container,
     .tradingview-widget-container__widget {
       width: 100%;
+      height: 100%;
     }
 
-    @media (min-width: 980px) {
-      .two-up {
-        grid-template-columns: 1fr 1fr;
+    .footer {
+      padding: 18px 0 46px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.8;
+    }
+
+    .footer-card {
+      padding: 16px 18px;
+    }
+
+    .footer strong { color: var(--text); }
+
+    @media (max-width: 1080px) {
+      .hero-inner,
+      .selected-meta {
+        grid-template-columns: 1fr;
       }
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 720px) {
+      .wrap { width: min(100% - 20px, 1280px); }
+      .hero-inner { padding: 18px; }
+      .selector-card { padding: 14px; }
+      .stats { grid-template-columns: 1fr; }
+      .chart-shell { min-height: 460px; }
+      .widget-slot { min-height: 320px; }
     }
   </style>
 </head>
 <body>
-  <header class="hero wrap">
-    <div class="hero-panel">
-      <div class="eyebrow">Global Markets Dashboard</div>
-      <h1>世界の株価を 1ページで見られる<br>シンプルな市場ダッシュボード</h1>
-      <p class="lead">
-        GitHub Pages に <strong>この 1ファイルだけ</strong>置けば動く構成です。上から順に、主要指数、世界の代表的な株式、為替、暗号資産を一覧表示します。
-      </p>
-      <nav class="mini-nav" aria-label="ページ内リンク">
-        <a href="#indices">主要指数</a>
-        <a href="#stocks">主要株式</a>
-        <a href="#forex">為替</a>
-        <a href="#crypto">暗号資産</a>
-      </nav>
-      <div class="ticker-shell" aria-label="ティッカーテープ">
-        <!-- TradingView Widget BEGIN -->
-        <div class="tradingview-widget-container">
-          <div class="tradingview-widget-container__widget"></div>
-          <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js" async>
-          {
-            "symbols": [
-              {"proName": "FOREXCOM:SPXUSD", "title": "S&P 500"},
-              {"proName": "FOREXCOM:DJI", "title": "Dow 30"},
-              {"proName": "FOREXCOM:NSXUSD", "title": "Nasdaq 100"},
-              {"proName": "INDEX:NKY", "title": "Nikkei 225"},
-              {"proName": "INDEX:HSI", "title": "Hang Seng"},
-              {"proName": "FOREXCOM:UKXGBP", "title": "FTSE 100"},
-              {"proName": "INDEX:DEU40", "title": "DAX"},
-              {"proName": "BITSTAMP:BTCUSD", "title": "Bitcoin"}
-            ],
-            "showSymbolLogo": true,
-            "isTransparent": true,
-            "displayMode": "adaptive",
-            "colorTheme": "dark",
-            "locale": "ja"
-          }
-          </script>
+  <div class="wrap hero">
+    <section class="hero-card">
+      <div class="hero-inner">
+        <div>
+          <div class="eyebrow">📈 世界の株価をチャート付きで表示する 1ファイル版</div>
+          <h1>世界の株価ページを<br>グラフ中心の表示へ</h1>
+          <p class="lead">
+            GitHub Pages に <code>index.html</code> 1つだけ置けば動く構成です。上部に市場の動き、中央に大きなチャート、下部に地域別カード型チャートを並べています。
+          </p>
+          <div class="stats">
+            <div class="stat"><span class="k">構成</span><span class="v">単一 HTML</span></div>
+            <div class="stat"><span class="k">データ取得</span><span class="v">外部ウィジェット</span></div>
+            <div class="stat"><span class="k">必要設定</span><span class="v">API キー不要</span></div>
+          </div>
         </div>
-        <!-- TradingView Widget END -->
+        <div class="panel selector-card">
+          <div class="section-head" style="margin-bottom: 10px;">
+            <h2 class="section-title" style="font-size: 20px; margin: 0;">使い方</h2>
+          </div>
+          <p class="section-note" style="margin-bottom: 10px;">
+            下のボタンを押すと、大きなチャートの表示対象が切り替わります。下段のカードには各地域の代表ETFを並べているので、数字だけでなく形でも動きが見えます。
+          </p>
+          <p class="section-note" style="margin: 0;">
+            必要なら銘柄コードを差し替えて、日本株中心版や指数中心版にも簡単に変更できます。
+          </p>
+        </div>
       </div>
-    </div>
-  </header>
+    </section>
+  </div>
+
+  <div class="wrap ticker-area">
+    <div class="panel" id="tickerTapePanel"></div>
+  </div>
 
   <main class="wrap">
-    <section class="grid" id="indices">
-      <article class="card">
-        <div class="card-header">
-          <h2>世界の主要指数</h2>
-          <p>米国、欧州、アジア太平洋の代表指数を地域別に一覧表示します。</p>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">メインチャート</h2>
+          <p class="section-note">主要地域・指数・為替の代表銘柄を切り替えて表示します。</p>
         </div>
-        <div class="card-body">
-          <!-- TradingView Widget BEGIN -->
-          <div class="tradingview-widget-container">
-            <div class="tradingview-widget-container__widget"></div>
-            <div class="tradingview-widget-copyright">
-              <a href="https://www.tradingview.com/markets/" rel="noopener nofollow" target="_blank">Market data by TradingView</a>
-            </div>
-            <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
-            {
-              "title": "Indices",
-              "width": "100%",
-              "height": 460,
-              "locale": "ja",
-              "showSymbolLogo": true,
-              "colorTheme": "dark",
-              "symbolsGroups": [
-                {
-                  "name": "米国・カナダ",
-                  "symbols": [
-                    {"name": "FOREXCOM:SPXUSD", "displayName": "S&P 500"},
-                    {"name": "FOREXCOM:NSXUSD", "displayName": "Nasdaq 100"},
-                    {"name": "FOREXCOM:DJI", "displayName": "Dow 30"},
-                    {"name": "INDEX:RUT", "displayName": "Russell 2000"},
-                    {"name": "TSX:TSX", "displayName": "S&P/TSX"}
-                  ]
-                },
-                {
-                  "name": "欧州",
-                  "symbols": [
-                    {"name": "INDEX:SX5E", "displayName": "Euro Stoxx 50"},
-                    {"name": "FOREXCOM:UKXGBP", "displayName": "FTSE 100"},
-                    {"name": "INDEX:DEU40", "displayName": "DAX"},
-                    {"name": "INDEX:CAC40", "displayName": "CAC 40"},
-                    {"name": "INDEX:SMI", "displayName": "SMI"}
-                  ]
-                },
-                {
-                  "name": "アジア太平洋",
-                  "symbols": [
-                    {"name": "INDEX:NKY", "displayName": "Nikkei 225"},
-                    {"name": "INDEX:TOPIX", "displayName": "TOPIX"},
-                    {"name": "INDEX:HSI", "displayName": "Hang Seng"},
-                    {"name": "BSE:SENSEX", "displayName": "Sensex"},
-                    {"name": "INDEX:KSIC", "displayName": "KOSPI"}
-                  ]
-                }
-              ]
-            }
-            </script>
+      </div>
+      <div class="panel selector-card">
+        <div class="button-row" id="marketButtons"></div>
+        <div class="selected-meta">
+          <div class="selected-box">
+            <div class="selected-label">現在表示中</div>
+            <div class="selected-value" id="selectedName">世界株式（VT）</div>
           </div>
-          <!-- TradingView Widget END -->
+          <div class="selected-box">
+            <div class="selected-label">銘柄コード</div>
+            <div class="selected-value" id="selectedSymbol">AMEX:VT</div>
+          </div>
         </div>
-      </article>
-    </section>
-
-    <section class="grid" id="stocks">
-      <div class="two-up">
-        <article class="card">
-          <div class="card-header">
-            <h2>米国の代表株</h2>
-            <p>大型テックと代表的な米国株をまとめています。</p>
-          </div>
-          <div class="card-body">
-            <!-- TradingView Widget BEGIN -->
-            <div class="tradingview-widget-container">
-              <div class="tradingview-widget-container__widget"></div>
-              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
-              {
-                "title": "US Stocks",
-                "width": "100%",
-                "height": 460,
-                "locale": "ja",
-                "showSymbolLogo": true,
-                "colorTheme": "dark",
-                "symbolsGroups": [
-                  {
-                    "name": "大型株",
-                    "symbols": [
-                      {"name": "NASDAQ:AAPL", "displayName": "Apple"},
-                      {"name": "NASDAQ:MSFT", "displayName": "Microsoft"},
-                      {"name": "NASDAQ:NVDA", "displayName": "NVIDIA"},
-                      {"name": "NASDAQ:AMZN", "displayName": "Amazon"},
-                      {"name": "NASDAQ:GOOGL", "displayName": "Alphabet"}
-                    ]
-                  },
-                  {
-                    "name": "代表銘柄",
-                    "symbols": [
-                      {"name": "NYSE:BRK.B", "displayName": "Berkshire Hathaway"},
-                      {"name": "NASDAQ:META", "displayName": "Meta"},
-                      {"name": "NYSE:V", "displayName": "Visa"},
-                      {"name": "NASDAQ:TSLA", "displayName": "Tesla"},
-                      {"name": "NYSE:JPM", "displayName": "JPMorgan"}
-                    ]
-                  }
-                ]
-              }
-              </script>
-            </div>
-            <!-- TradingView Widget END -->
-          </div>
-        </article>
-
-        <article class="card">
-          <div class="card-header">
-            <h2>日本・アジアの代表株</h2>
-            <p>日本を含むアジアの代表的な大型株を並べています。</p>
-          </div>
-          <div class="card-body">
-            <!-- TradingView Widget BEGIN -->
-            <div class="tradingview-widget-container">
-              <div class="tradingview-widget-container__widget"></div>
-              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
-              {
-                "title": "Asia Stocks",
-                "width": "100%",
-                "height": 460,
-                "locale": "ja",
-                "showSymbolLogo": true,
-                "colorTheme": "dark",
-                "symbolsGroups": [
-                  {
-                    "name": "日本",
-                    "symbols": [
-                      {"name": "TSE:7203", "displayName": "Toyota"},
-                      {"name": "TSE:6758", "displayName": "Sony Group"},
-                      {"name": "TSE:9984", "displayName": "SoftBank Group"},
-                      {"name": "TSE:8035", "displayName": "Tokyo Electron"},
-                      {"name": "TSE:9983", "displayName": "Fast Retailing"}
-                    ]
-                  },
-                  {
-                    "name": "アジア",
-                    "symbols": [
-                      {"name": "HKEX:0700", "displayName": "Tencent"},
-                      {"name": "SSE:600519", "displayName": "Kweichow Moutai"},
-                      {"name": "BSE:RELIANCE", "displayName": "Reliance"},
-                      {"name": "KRX:005930", "displayName": "Samsung Electronics"},
-                      {"name": "TSEC:2330", "displayName": "TSMC"}
-                    ]
-                  }
-                ]
-              }
-              </script>
-            </div>
-            <!-- TradingView Widget END -->
-          </div>
-        </article>
+        <div class="chart-shell" id="mainChart"></div>
       </div>
     </section>
 
-    <section class="grid" id="forex">
-      <div class="two-up">
-        <article class="card">
-          <div class="card-header">
-            <h2>主要為替</h2>
-            <p>ドル円、ユーロドル、ポンドドルなど主要ペアの動きを確認できます。</p>
-          </div>
-          <div class="card-body">
-            <!-- TradingView Widget BEGIN -->
-            <div class="tradingview-widget-container">
-              <div class="tradingview-widget-container__widget"></div>
-              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
-              {
-                "title": "Forex",
-                "width": "100%",
-                "height": 420,
-                "locale": "ja",
-                "showSymbolLogo": true,
-                "colorTheme": "dark",
-                "symbolsGroups": [
-                  {
-                    "name": "主要通貨",
-                    "symbols": [
-                      {"name": "FX:USDJPY", "displayName": "USD/JPY"},
-                      {"name": "FX:EURUSD", "displayName": "EUR/USD"},
-                      {"name": "FX:GBPUSD", "displayName": "GBP/USD"},
-                      {"name": "FX:AUDUSD", "displayName": "AUD/USD"},
-                      {"name": "FX:USDCHF", "displayName": "USD/CHF"}
-                    ]
-                  },
-                  {
-                    "name": "その他",
-                    "symbols": [
-                      {"name": "FX:USDCNH", "displayName": "USD/CNH"},
-                      {"name": "FX:EURJPY", "displayName": "EUR/JPY"},
-                      {"name": "FX:GBPJPY", "displayName": "GBP/JPY"},
-                      {"name": "FX:USDKRW", "displayName": "USD/KRW"},
-                      {"name": "FX:USDINR", "displayName": "USD/INR"}
-                    ]
-                  }
-                ]
-              }
-              </script>
-            </div>
-            <!-- TradingView Widget END -->
-          </div>
-        </article>
-
-        <article class="card" id="crypto">
-          <div class="card-header">
-            <h2>主要暗号資産</h2>
-            <p>ビットコイン、イーサリアムなど主要銘柄を一覧できます。</p>
-          </div>
-          <div class="card-body">
-            <!-- TradingView Widget BEGIN -->
-            <div class="tradingview-widget-container">
-              <div class="tradingview-widget-container__widget"></div>
-              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-market-quotes.js" async>
-              {
-                "title": "Crypto",
-                "width": "100%",
-                "height": 420,
-                "locale": "ja",
-                "showSymbolLogo": true,
-                "colorTheme": "dark",
-                "symbolsGroups": [
-                  {
-                    "name": "主要暗号資産",
-                    "symbols": [
-                      {"name": "BITSTAMP:BTCUSD", "displayName": "Bitcoin"},
-                      {"name": "BITSTAMP:ETHUSD", "displayName": "Ethereum"},
-                      {"name": "BINANCE:SOLUSDT", "displayName": "Solana"},
-                      {"name": "BINANCE:XRPUSDT", "displayName": "XRP"},
-                      {"name": "BINANCE:BNBUSDT", "displayName": "BNB"}
-                    ]
-                  },
-                  {
-                    "name": "拡張",
-                    "symbols": [
-                      {"name": "BINANCE:DOGEUSDT", "displayName": "Dogecoin"},
-                      {"name": "BINANCE:ADAUSDT", "displayName": "Cardano"},
-                      {"name": "BINANCE:AVAXUSDT", "displayName": "Avalanche"},
-                      {"name": "BINANCE:LINKUSDT", "displayName": "Chainlink"},
-                      {"name": "BINANCE:DOTUSDT", "displayName": "Polkadot"}
-                    ]
-                  }
-                ]
-              }
-              </script>
-            </div>
-            <!-- TradingView Widget END -->
-          </div>
-        </article>
+    <section class="section">
+      <div class="section-head">
+        <div>
+          <h2 class="section-title">地域別チャート一覧</h2>
+          <p class="section-note">各カードに簡易チャートと価格情報を表示します。</p>
+        </div>
       </div>
+      <div class="cards" id="cards"></div>
     </section>
-
-    <p class="note">表示されるデータは外部ウィジェットの配信状況に依存します。ページ自体は 1つの HTML ファイルだけで公開できます。</p>
   </main>
 
-  <footer class="footer wrap">
-    <div class="footer-box">
-      <strong>設置方法:</strong> 今のリポジトリの <code>index.html</code> をこのファイルで置き換えてコミットしてください。<br>
-      その後、GitHub Pages を再読み込みすると反映されます。`.github` フォルダ、API キー、定期更新ワークフローは不要です。
+  <div class="wrap footer">
+    <div class="panel footer-card">
+      <div>
+        <strong>設置方法:</strong> このファイルを <code>index.html</code> という名前で、GitHub の <code>home</code> リポジトリ最上位に置き換えてコミットしてください。<br>
+        <strong>補足:</strong> 下段のカードは「各地域の代表ETF」を使っています。あとから指数や個別銘柄へ差し替え可能です。<br>
+        <strong>表示されない場合:</strong> 企業ネットワークやブラウザ拡張機能が外部スクリプトをブロックしていないか確認してください。
+      </div>
     </div>
-  </footer>
+  </div>
+
+  <script>
+    const featuredMarkets = [
+      { label: '世界株式', symbol: 'AMEX:VT', note: '全世界株式ETFの代表例' },
+      { label: '米国大型株', symbol: 'AMEX:SPY', note: 'S&P 500 連動ETF' },
+      { label: 'ハイテク株', symbol: 'NASDAQ:QQQ', note: 'NASDAQ 100 連動ETF' },
+      { label: '日本株', symbol: 'AMEX:EWJ', note: '日本株ETF' },
+      { label: '欧州株', symbol: 'AMEX:VGK', note: '欧州株ETF' },
+      { label: '中国大型株', symbol: 'AMEX:FXI', note: '中国大型株ETF' },
+      { label: 'インド株', symbol: 'NYSEARCA:INDA', note: 'インド株ETF' },
+      { label: '豪州株', symbol: 'NYSEARCA:EWA', note: 'オーストラリア株ETF' },
+      { label: 'ブラジル株', symbol: 'NYSEARCA:EWZ', note: 'ブラジル株ETF' },
+      { label: 'ドル円', symbol: 'FX:USDJPY', note: '為替も確認可能' }
+    ];
+
+    const cardMarkets = [
+      { title: '世界株式', symbol: 'AMEX:VT', tag: 'Global', description: '世界全体の株式に分散した代表的なETFです。' },
+      { title: '米国株', symbol: 'AMEX:SPY', tag: 'United States', description: '米国大型株の動きを確認しやすい定番ETFです。' },
+      { title: '日本株', symbol: 'AMEX:EWJ', tag: 'Japan', description: '日本市場をざっくり把握するための代表的なETFです。' },
+      { title: '欧州株', symbol: 'AMEX:VGK', tag: 'Europe', description: '欧州主要国の株式をまとめて追いやすいETFです。' },
+      { title: '中国株', symbol: 'AMEX:FXI', tag: 'China', description: '中国の大型株を中心とした値動きを確認できます。' },
+      { title: 'インド株', symbol: 'NYSEARCA:INDA', tag: 'India', description: '成長市場として注目されやすいインド株の代表ETFです。' },
+      { title: '豪州株', symbol: 'NYSEARCA:EWA', tag: 'Australia', description: '資源国としても注目される豪州市場の代表ETFです。' },
+      { title: 'ブラジル株', symbol: 'NYSEARCA:EWZ', tag: 'Brazil', description: '南米市場の代表例として見やすいブラジル株ETFです。' }
+    ];
+
+    function createWidgetContainer(parent) {
+      const outer = document.createElement('div');
+      outer.className = 'tradingview-widget-container';
+      const inner = document.createElement('div');
+      inner.className = 'tradingview-widget-container__widget';
+      outer.appendChild(inner);
+      parent.appendChild(outer);
+      return outer;
+    }
+
+    function appendTradingViewScript(container, src, config) {
+      const script = document.createElement('script');
+      script.type = 'text/javascript';
+      script.async = true;
+      script.src = src;
+      script.text = JSON.stringify(config);
+      container.appendChild(script);
+    }
+
+    function renderTickerTape() {
+      const root = document.getElementById('tickerTapePanel');
+      const container = createWidgetContainer(root);
+      appendTradingViewScript(
+        container,
+        'https://s3.tradingview.com/external-embedding/embed-widget-ticker-tape.js',
+        {
+          symbols: [
+            { proName: 'AMEX:VT', title: 'World' },
+            { proName: 'AMEX:SPY', title: 'S&P 500' },
+            { proName: 'TVC:DJI', title: 'Dow' },
+            { proName: 'NASDAQ:IXIC', title: 'Nasdaq' },
+            { proName: 'AMEX:EWJ', title: 'Japan' },
+            { proName: 'AMEX:VGK', title: 'Europe' },
+            { proName: 'FX:USDJPY', title: 'USD/JPY' },
+            { proName: 'BITSTAMP:BTCUSD', title: 'BTC/USD' }
+          ],
+          showSymbolLogo: true,
+          isTransparent: true,
+          displayMode: 'adaptive',
+          colorTheme: 'dark',
+          locale: 'ja'
+        }
+      );
+    }
+
+    function renderMainButtons() {
+      const wrap = document.getElementById('marketButtons');
+      featuredMarkets.forEach((market, index) => {
+        const btn = document.createElement('button');
+        btn.className = 'market-btn' + (index === 0 ? ' active' : '');
+        btn.textContent = market.label;
+        btn.addEventListener('click', () => {
+          document.querySelectorAll('.market-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          renderMainChart(market);
+        });
+        wrap.appendChild(btn);
+      });
+    }
+
+    function renderMainChart(market) {
+      document.getElementById('selectedName').textContent = market.label;
+      document.getElementById('selectedSymbol').textContent = market.symbol;
+
+      const root = document.getElementById('mainChart');
+      root.innerHTML = '';
+      const container = createWidgetContainer(root);
+      appendTradingViewScript(
+        container,
+        'https://s3.tradingview.com/external-embedding/embed-widget-advanced-chart.js',
+        {
+          autosize: true,
+          symbol: market.symbol,
+          interval: 'D',
+          timezone: 'Asia/Tokyo',
+          theme: 'dark',
+          style: '1',
+          locale: 'ja',
+          enable_publishing: false,
+          allow_symbol_change: true,
+          hide_top_toolbar: false,
+          hide_legend: false,
+          save_image: false,
+          calendar: false,
+          support_host: 'https://www.tradingview.com'
+        }
+      );
+    }
+
+    function renderCards() {
+      const root = document.getElementById('cards');
+      cardMarkets.forEach((market) => {
+        const card = document.createElement('article');
+        card.className = 'card';
+        card.innerHTML = `
+          <div class="card-head">
+            <h3>${market.title}</h3>
+            <span class="tag">${market.tag}</span>
+          </div>
+          <p>${market.description}</p>
+          <div class="widget-slot"></div>
+        `;
+        root.appendChild(card);
+
+        const slot = card.querySelector('.widget-slot');
+        const container = createWidgetContainer(slot);
+        appendTradingViewScript(
+          container,
+          'https://s3.tradingview.com/external-embedding/embed-widget-symbol-overview.js',
+          {
+            symbols: [[market.title, `${market.symbol}|1D`]],
+            chartOnly: false,
+            width: '100%',
+            height: '340',
+            locale: 'ja',
+            colorTheme: 'dark',
+            autosize: true,
+            showVolume: false,
+            showMA: false,
+            hideDateRanges: false,
+            hideMarketStatus: false,
+            hideSymbolLogo: false,
+            scalePosition: 'right',
+            scaleMode: 'Normal',
+            fontFamily: 'system-ui, sans-serif',
+            fontSize: '10',
+            noTimeScale: false,
+            valuesTracking: '1',
+            changeMode: 'price-and-percent',
+            chartType: 'area',
+            lineWidth: 2,
+            lineType: 0,
+            dateRanges: ['1D|1', '1M|30', '3M|60', '12M|1D', '60M|1W', 'all|1M'],
+            dateFormat: 'yyyy/MM/dd',
+            isTransparent: true,
+            showFloatingTooltip: false,
+            showLegend: false,
+            support_host: 'https://www.tradingview.com'
+          }
+        );
+      });
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderTickerTape();
+      renderMainButtons();
+      renderMainChart(featuredMarkets[0]);
+      renderCards();
+    });
+  </script>
 </body>
 </html>
