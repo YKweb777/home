@@ -1,14 +1,9 @@
 {
-  "updated_at": "2026-04-08T06:10:30.409456+00:00",
+  "updated_at": "2026-04-09T06:11:02.608568+00:00",
   "source": "Alpha Vantage / GitHub Actions",
-  "item_count": 9,
-  "error_count": 1,
-  "errors": [
-    {
-      "symbol": "EWG",
-      "error": "Global Quote が空でした。"
-    }
-  ],
+  "item_count": 10,
+  "error_count": 0,
+  "errors": [],
   "items": [
     {
       "name": "米国 S&P 500",
@@ -17,11 +12,11 @@
       "exchange": "NYSE Arca",
       "currency": "USD",
       "note": "米国大型株の代表的な指数連動ETF",
-      "price": 659.22,
-      "change": 0.29,
-      "change_percent": 0.044,
-      "previous_close": 658.93,
-      "latest_trading_day": "2026-04-07",
+      "price": 676.01,
+      "change": 16.79,
+      "change_percent": 2.5469,
+      "previous_close": 659.22,
+      "latest_trading_day": "2026-04-08",
       "raw_symbol": "SPY"
     },
     {
@@ -31,11 +26,11 @@
       "exchange": "NYSE Arca",
       "currency": "USD",
       "note": "欧州・豪州・極東の先進国株ETF",
-      "price": 98.35,
-      "change": -0.14,
-      "change_percent": -0.1421,
-      "previous_close": 98.49,
-      "latest_trading_day": "2026-04-07",
+      "price": 102.19,
+      "change": 3.84,
+      "change_percent": 3.9044,
+      "previous_close": 98.35,
+      "latest_trading_day": "2026-04-08",
       "raw_symbol": "EFA"
     },
     {
@@ -45,11 +40,11 @@
       "exchange": "NYSE Arca",
       "currency": "USD",
       "note": "日本株に連動するETF",
-      "price": 85.51,
-      "change": -0.06,
-      "change_percent": -0.0701,
-      "previous_close": 85.57,
-      "latest_trading_day": "2026-04-07",
+      "price": 89.41,
+      "change": 3.9,
+      "change_percent": 4.5609,
+      "previous_close": 85.51,
+      "latest_trading_day": "2026-04-08",
       "raw_symbol": "EWJ"
     },
     {
@@ -59,11 +54,11 @@
       "exchange": "NYSE Arca",
       "currency": "USD",
       "note": "中国大型株ETF",
-      "price": 35.48,
-      "change": -0.07,
-      "change_percent": -0.1969,
-      "previous_close": 35.55,
-      "latest_trading_day": "2026-04-07",
+      "price": 36.35,
+      "change": 0.87,
+      "change_percent": 2.4521,
+      "previous_close": 35.48,
+      "latest_trading_day": "2026-04-08",
       "raw_symbol": "FXI"
     },
     {
@@ -73,11 +68,11 @@
       "exchange": "NYSE Arca",
       "currency": "USD",
       "note": "香港株ETF",
-      "price": 23.25,
-      "change": -0.02,
-      "change_percent": -0.0859,
-      "previous_close": 23.27,
-      "latest_trading_day": "2026-04-07",
+      "price": 23.77,
+      "change": 0.52,
+      "change_percent": 2.2366,
+      "previous_close": 23.25,
+      "latest_trading_day": "2026-04-08",
       "raw_symbol": "EWH"
     },
     {
@@ -87,11 +82,11 @@
       "exchange": "NYSE Arca",
       "currency": "USD",
       "note": "インド株ETF",
-      "price": 47.36,
-      "change": 0.11,
-      "change_percent": 0.2328,
-      "previous_close": 47.25,
-      "latest_trading_day": "2026-04-07",
+      "price": 49.27,
+      "change": 1.91,
+      "change_percent": 4.0329,
+      "previous_close": 47.36,
+      "latest_trading_day": "2026-04-08",
       "raw_symbol": "INDA"
     },
     {
@@ -101,12 +96,26 @@
       "exchange": "NYSE Arca",
       "currency": "USD",
       "note": "英国株ETF",
-      "price": 46.32,
-      "change": -0.1,
-      "change_percent": -0.2154,
-      "previous_close": 46.42,
-      "latest_trading_day": "2026-04-07",
+      "price": 47.82,
+      "change": 1.5,
+      "change_percent": 3.2383,
+      "previous_close": 46.32,
+      "latest_trading_day": "2026-04-08",
       "raw_symbol": "EWU"
+    },
+    {
+      "name": "ドイツ",
+      "symbol": "EWG",
+      "region": "ヨーロッパ",
+      "exchange": "NYSE Arca",
+      "currency": "USD",
+      "note": "ドイツ株ETF",
+      "price": 41.74,
+      "change": 1.63,
+      "change_percent": 4.0638,
+      "previous_close": 40.11,
+      "latest_trading_day": "2026-04-08",
+      "raw_symbol": "EWG"
     },
     {
       "name": "フランス",
@@ -115,11 +124,11 @@
       "exchange": "NYSE Arca",
       "currency": "USD",
       "note": "フランス株ETF",
-      "price": 44.02,
-      "change": -0.14,
-      "change_percent": -0.317,
-      "previous_close": 44.16,
-      "latest_trading_day": "2026-04-07",
+      "price": 45.87,
+      "change": 1.85,
+      "change_percent": 4.2026,
+      "previous_close": 44.02,
+      "latest_trading_day": "2026-04-08",
       "raw_symbol": "EWQ"
     },
     {
@@ -129,11 +138,11 @@
       "exchange": "NYSE Arca",
       "currency": "USD",
       "note": "豪州株ETF",
-      "price": 28.54,
-      "change": 0.32,
-      "change_percent": 1.1339,
-      "previous_close": 28.22,
-      "latest_trading_day": "2026-04-07",
+      "price": 29.52,
+      "change": 0.98,
+      "change_percent": 3.4338,
+      "previous_close": 28.54,
+      "latest_trading_day": "2026-04-08",
       "raw_symbol": "EWA"
     }
   ]
