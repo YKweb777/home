@@ -1,149 +1,49 @@
 {
-  "updated_at": "2026-07-15T03:30:39.816526+00:00",
+  "updated_at": "2026-07-16T03:34:35.190717+00:00",
   "source": "Alpha Vantage / GitHub Actions",
-  "item_count": 10,
-  "error_count": 0,
-  "errors": [],
-  "items": [
+  "item_count": 0,
+  "error_count": 10,
+  "errors": [
     {
-      "name": "米国 S&P 500",
       "symbol": "SPY",
-      "region": "北米",
-      "exchange": "NYSE Arca",
-      "currency": "USD",
-      "note": "米国大型株の代表的な指数連動ETF",
-      "price": 751.83,
-      "change": 2.66,
-      "change_percent": 0.3551,
-      "previous_close": 749.17,
-      "latest_trading_day": "2026-07-14",
-      "raw_symbol": "SPY"
+      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
     },
     {
-      "name": "先進国（米国除く）",
       "symbol": "EFA",
-      "region": "グローバル",
-      "exchange": "NYSE Arca",
-      "currency": "USD",
-      "note": "欧州・豪州・極東の先進国株ETF",
-      "price": 103.96,
-      "change": 0.72,
-      "change_percent": 0.6974,
-      "previous_close": 103.24,
-      "latest_trading_day": "2026-07-14",
-      "raw_symbol": "EFA"
+      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
     },
     {
-      "name": "日本",
       "symbol": "EWJ",
-      "region": "アジア",
-      "exchange": "NYSE Arca",
-      "currency": "USD",
-      "note": "日本株に連動するETF",
-      "price": 93.89,
-      "change": 1.17,
-      "change_percent": 1.2619,
-      "previous_close": 92.72,
-      "latest_trading_day": "2026-07-14",
-      "raw_symbol": "EWJ"
+      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
     },
     {
-      "name": "中国大型株",
       "symbol": "FXI",
-      "region": "アジア",
-      "exchange": "NYSE Arca",
-      "currency": "USD",
-      "note": "中国大型株ETF",
-      "price": 33.77,
-      "change": 0.33,
-      "change_percent": 0.9868,
-      "previous_close": 33.44,
-      "latest_trading_day": "2026-07-14",
-      "raw_symbol": "FXI"
+      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
     },
     {
-      "name": "香港",
       "symbol": "EWH",
-      "region": "アジア",
-      "exchange": "NYSE Arca",
-      "currency": "USD",
-      "note": "香港株ETF",
-      "price": 21.67,
-      "change": 0.37,
-      "change_percent": 1.7371,
-      "previous_close": 21.3,
-      "latest_trading_day": "2026-07-14",
-      "raw_symbol": "EWH"
+      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
     },
     {
-      "name": "インド",
       "symbol": "INDA",
-      "region": "アジア",
-      "exchange": "NYSE Arca",
-      "currency": "USD",
-      "note": "インド株ETF",
-      "price": 48.73,
-      "change": -0.06,
-      "change_percent": -0.123,
-      "previous_close": 48.79,
-      "latest_trading_day": "2026-07-14",
-      "raw_symbol": "INDA"
+      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
     },
     {
-      "name": "イギリス",
       "symbol": "EWU",
-      "region": "ヨーロッパ",
-      "exchange": "NYSE Arca",
-      "currency": "USD",
-      "note": "英国株ETF",
-      "price": 46.31,
-      "change": -0.05,
-      "change_percent": -0.1079,
-      "previous_close": 46.36,
-      "latest_trading_day": "2026-07-14",
-      "raw_symbol": "EWU"
+      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
     },
     {
-      "name": "ドイツ",
       "symbol": "EWG",
-      "region": "ヨーロッパ",
-      "exchange": "NYSE Arca",
-      "currency": "USD",
-      "note": "ドイツ株ETF",
-      "price": 41.39,
-      "change": 0.16,
-      "change_percent": 0.3881,
-      "previous_close": 41.23,
-      "latest_trading_day": "2026-07-14",
-      "raw_symbol": "EWG"
+      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
     },
     {
-      "name": "フランス",
       "symbol": "EWQ",
-      "region": "ヨーロッパ",
-      "exchange": "NYSE Arca",
-      "currency": "USD",
-      "note": "フランス株ETF",
-      "price": 45.04,
-      "change": 0.21,
-      "change_percent": 0.4684,
-      "previous_close": 44.83,
-      "latest_trading_day": "2026-07-14",
-      "raw_symbol": "EWQ"
+      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
     },
     {
-      "name": "オーストラリア",
       "symbol": "EWA",
-      "region": "オセアニア",
-      "exchange": "NYSE Arca",
-      "currency": "USD",
-      "note": "豪州株ETF",
-      "price": 28.71,
-      "change": 0.36,
-      "change_percent": 1.2698,
-      "previous_close": 28.35,
-      "latest_trading_day": "2026-07-14",
-      "raw_symbol": "EWA"
+      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
     }
-  ]
+  ],
+  "items": []
 }
