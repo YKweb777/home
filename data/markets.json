@@ -1,49 +1,149 @@
 {
-  "updated_at": "2026-07-16T03:34:35.190717+00:00",
+  "updated_at": "2026-07-17T03:35:12.499144+00:00",
   "source": "Alpha Vantage / GitHub Actions",
-  "item_count": 0,
-  "error_count": 10,
-  "errors": [
+  "item_count": 10,
+  "error_count": 0,
+  "errors": [],
+  "items": [
     {
+      "name": "米国 S&P 500",
       "symbol": "SPY",
-      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+      "region": "北米",
+      "exchange": "NYSE Arca",
+      "currency": "USD",
+      "note": "米国大型株の代表的な指数連動ETF",
+      "price": 750.72,
+      "change": -4.09,
+      "change_percent": -0.5419,
+      "previous_close": 754.81,
+      "latest_trading_day": "2026-07-16",
+      "raw_symbol": "SPY"
     },
     {
+      "name": "先進国（米国除く）",
       "symbol": "EFA",
-      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+      "region": "グローバル",
+      "exchange": "NYSE Arca",
+      "currency": "USD",
+      "note": "欧州・豪州・極東の先進国株ETF",
+      "price": 103.81,
+      "change": -0.84,
+      "change_percent": -0.8027,
+      "previous_close": 104.65,
+      "latest_trading_day": "2026-07-16",
+      "raw_symbol": "EFA"
     },
     {
+      "name": "日本",
       "symbol": "EWJ",
-      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+      "region": "アジア",
+      "exchange": "NYSE Arca",
+      "currency": "USD",
+      "note": "日本株に連動するETF",
+      "price": 91.91,
+      "change": -1.59,
+      "change_percent": -1.7005,
+      "previous_close": 93.5,
+      "latest_trading_day": "2026-07-16",
+      "raw_symbol": "EWJ"
     },
     {
+      "name": "中国大型株",
       "symbol": "FXI",
-      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+      "region": "アジア",
+      "exchange": "NYSE Arca",
+      "currency": "USD",
+      "note": "中国大型株ETF",
+      "price": 34.53,
+      "change": 0.25,
+      "change_percent": 0.7293,
+      "previous_close": 34.28,
+      "latest_trading_day": "2026-07-16",
+      "raw_symbol": "FXI"
     },
     {
+      "name": "香港",
       "symbol": "EWH",
-      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+      "region": "アジア",
+      "exchange": "NYSE Arca",
+      "currency": "USD",
+      "note": "香港株ETF",
+      "price": 22.05,
+      "change": -0.03,
+      "change_percent": -0.1359,
+      "previous_close": 22.08,
+      "latest_trading_day": "2026-07-16",
+      "raw_symbol": "EWH"
     },
     {
+      "name": "インド",
       "symbol": "INDA",
-      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+      "region": "アジア",
+      "exchange": "NYSE Arca",
+      "currency": "USD",
+      "note": "インド株ETF",
+      "price": 48.69,
+      "change": -0.03,
+      "change_percent": -0.0616,
+      "previous_close": 48.72,
+      "latest_trading_day": "2026-07-16",
+      "raw_symbol": "INDA"
     },
     {
+      "name": "イギリス",
       "symbol": "EWU",
-      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+      "region": "ヨーロッパ",
+      "exchange": "NYSE Arca",
+      "currency": "USD",
+      "note": "英国株ETF",
+      "price": 46.97,
+      "change": 0.2,
+      "change_percent": 0.4276,
+      "previous_close": 46.77,
+      "latest_trading_day": "2026-07-16",
+      "raw_symbol": "EWU"
     },
     {
+      "name": "ドイツ",
       "symbol": "EWG",
-      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+      "region": "ヨーロッパ",
+      "exchange": "NYSE Arca",
+      "currency": "USD",
+      "note": "ドイツ株ETF",
+      "price": 41.24,
+      "change": -0.26,
+      "change_percent": -0.6265,
+      "previous_close": 41.5,
+      "latest_trading_day": "2026-07-16",
+      "raw_symbol": "EWG"
     },
     {
+      "name": "フランス",
       "symbol": "EWQ",
-      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+      "region": "ヨーロッパ",
+      "exchange": "NYSE Arca",
+      "currency": "USD",
+      "note": "フランス株ETF",
+      "price": 45.18,
+      "change": -0.29,
+      "change_percent": -0.6378,
+      "previous_close": 45.47,
+      "latest_trading_day": "2026-07-16",
+      "raw_symbol": "EWQ"
     },
     {
+      "name": "オーストラリア",
       "symbol": "EWA",
-      "error": "We have detected your API key as K2MH92TKFARYB6IN and our standard API rate limit is 25 requests per day. Please subscribe to any of the premium plans at https://www.alphavantage.co/premium/ to instantly remove all daily rate limits."
+      "region": "オセアニア",
+      "exchange": "NYSE Arca",
+      "currency": "USD",
+      "note": "豪州株ETF",
+      "price": 28.63,
+      "change": -0.17,
+      "change_percent": -0.5903,
+      "previous_close": 28.8,
+      "latest_trading_day": "2026-07-16",
+      "raw_symbol": "EWA"
     }
-  ],
-  "items": []
+  ]
 }
